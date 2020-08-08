@@ -49,7 +49,7 @@ module Manga
       # end
 
       desc "pub", "publication date"
-      def pub2
+      def pub
         Manga::Tools::Cache.init
 
         t = Time.now
@@ -59,7 +59,16 @@ module Manga
           cache.expires_in = Manga::Tools::Http.seconds_to_cache(res)
           res.body
         end
-        doc = Nokogiri::HTML(StringIO.open(cached_data))
+
+        results = pub_internal(cached_data)
+
+        puts JSON.pretty_generate(results)
+      end
+
+      private
+
+      def pub_internal(data)
+        doc = Nokogiri::HTML(StringIO.open(data))
 
         results = {}
         current_date = nil
@@ -106,7 +115,8 @@ module Manga
             retry
           end
         end
-        puts JSON.pretty_generate(results)
+
+        results
       end
     end
   end
