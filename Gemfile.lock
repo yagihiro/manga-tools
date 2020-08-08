@@ -6,7 +6,18 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    coderay (1.1.3)
     diff-lcs (1.4.4)
+    faraday (1.0.1)
+      multipart-post (>= 1.2, < 3)
+    method_source (1.0.0)
+    mini_portile2 (2.4.0)
+    multipart-post (2.1.1)
+    nokogiri (1.10.9)
+      mini_portile2 (~> 2.4.0)
+    pry (0.13.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     rake (13.0.1)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -27,7 +38,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  faraday
   manga-tools!
+  nokogiri
+  pry
   rake
   rspec
   thor
