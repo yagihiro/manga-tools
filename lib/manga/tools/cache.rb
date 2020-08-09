@@ -4,6 +4,7 @@ require 'digest/md5'
 require 'fileutils'
 
 module Manga::Tools
+  # Cache class
   class Cache
     class << self
       # Initialize cache
@@ -72,7 +73,7 @@ module Manga::Tools
       saved_expires_in = File.read(meta_file_path).strip.to_i
 
       Time.now <= (t + saved_expires_in)
-    rescue
+    rescue StandardError
       false
     end
 

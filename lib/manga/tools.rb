@@ -5,8 +5,6 @@ require 'manga/tools/cli'
 require 'manga/tools/http'
 require 'manga/tools/version'
 
-module Manga
-  module Tools
-    class Error < StandardError; end
-  end
+module Manga::Tools
+  class Error < StandardError; end
 end

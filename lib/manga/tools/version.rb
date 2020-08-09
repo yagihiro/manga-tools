@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+# @private
 module Manga
-  module Tools
-    VERSION = '0.1.0'
-  end
+end
+
+module Manga::Tools
+  VERSION = '0.1.0'
 end
