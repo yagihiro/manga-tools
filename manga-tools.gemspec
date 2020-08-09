@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Tools to support the automation of daily manga-related activities.'
   spec.homepage      = 'https://github.com/yagihiro/manga-tools'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   # spec.metadata['allowed_push_host'] = 'TODO: Set to 'http://mygemserver.com''
 

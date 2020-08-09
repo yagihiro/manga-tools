@@ -35,4 +35,4 @@ Metrics/PerceivedComplexity:
   Max: 7
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
+  EnforcedStyle: nested

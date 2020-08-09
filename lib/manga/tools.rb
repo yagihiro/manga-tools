@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-require 'manga/tools/cache'
-require 'manga/tools/cli'
-require 'manga/tools/http'
-require 'manga/tools/version'
+require_relative 'tools/cache'
+require_relative 'tools/cli'
+require_relative 'tools/http'
+require_relative 'tools/version'
 
-module Manga::Tools
-  class Error < StandardError; end
+module Manga
+  module Tools
+    class Error < StandardError; end
+  end
 end
