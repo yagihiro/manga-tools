@@ -8,7 +8,8 @@ gemspec
 gem 'faraday'
 gem 'nokogiri'
 gem 'pry'
-gem 'rake', require: 'false'
+gem 'rake', require: false
 gem 'rspec'
-gem 'rubocop', require: 'false'
+gem 'rubocop', require: false
 gem 'thor'
+gem 'simplecov', require: false
