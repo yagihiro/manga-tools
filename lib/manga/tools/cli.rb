@@ -54,15 +54,14 @@ module Manga
 
         t = Time.now
         url = "https://calendar.gameiroiro.com/manga.php?year=#{t.year}&month=#{t.month}"
-        cached_data = Manga::Tools::Cache.fetch(key: url) do |cache|
+        data = Manga::Tools::Cache.fetch(key: url) do |cache|
           res = Manga::Tools::Http.get(url)
           cache.expires_in = Manga::Tools::Http.seconds_to_cache(res)
-          res.body
+          results = pub_internal(res.body)
+          results.to_json
         end
 
-        results = pub_internal(cached_data)
-
-        puts JSON.pretty_generate(results)
+        puts JSON.parse(data)
       end
 
       private
