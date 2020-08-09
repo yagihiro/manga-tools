@@ -5,10 +5,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/e2797c91a0bd6f521905/maintainability)](https://codeclimate.com/github/yagihiro/manga-tools/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e2797c91a0bd6f521905/test_coverage)](https://codeclimate.com/github/yagihiro/manga-tools/test_coverage)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/manga/tools`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -27,7 +23,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+* A search command to find out the release date of a manga
+
+```
+$ manga-tools search "ONE PIECE"
+```
 
 ## Development
 
