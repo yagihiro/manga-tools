@@ -25,8 +25,7 @@ module Manga::Tools
     # @return [Faraday::Response] a response object
     def self.get(url)
       u = URI.parse(url)
-      res = connection("#{u.scheme}://#{u.host}").get(u.request_uri)
-      res
+      connection("#{u.scheme}://#{u.host}").get(u.request_uri)
     end
 
     # @param response [Faraday::Response] a response object

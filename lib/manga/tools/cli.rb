@@ -48,8 +48,8 @@ module Manga::Tools
     #   puts JSON.pretty_generate(results)
     # end
 
-    desc 'pub', 'publication date'
-    def pub
+    desc 'search WORD', 'Search for a given WORD'
+    def search(word)
       Manga::Tools::Cache.init
 
       t = Time.now
@@ -57,55 +57,57 @@ module Manga::Tools
       data = Manga::Tools::Cache.fetch(key: url) do |cache|
         res = Manga::Tools::Http.get(url)
         cache.expires_in = Manga::Tools::Http.seconds_to_cache(res)
-        results = pub_internal(res.body)
+        results = generate_internal_data(t, res.body)
         results.to_json
       end
 
-      puts JSON.parse(data)
+      hash = JSON.parse(data)
+
+      puts "Searching '#{word}' ..."
+      hash.each do |date, items|
+        next if items.empty?
+
+        items.each do |item|
+          puts "Found: #{date}, #{item['title']}" if item['title'].index(word)
+        end
+      end
+      puts 'Finished.'
     end
 
     private
 
-    def pub_internal(data)
+    # @param time [Time] a target time
+    # @param data [String] a string of HTTP response body.
+    def generate_internal_data(time, data)
       doc = Nokogiri::HTML(StringIO.open(data))
 
       results = {}
       current_date = nil
       state = :genre
       data = {}
-      targets = [
-        'td.day-td',
-        'div.product-description-right p.p-genre',
-        'div.product-description-right a',
-        'div.product-description-right p.p-company'
-      ]
       doc.css(targets.join(', ')).each do |element|
-        value = element.content.strip
+        value = rm_spaces(element.content)
         case element.name
         when 'td'
-          results[value] = []
-          current_date = value
+          current_date = format('%<ym>s/%<day>02d', ym: time.strftime('%Y/%m'), day: value.to_i)
+          results[current_date] = []
         when 'p', 'a'
           case state
           when :genre
-            raise 'invalid state' unless element.name == 'p' && element['class'] == 'p-genre'
-
+            guard_genre(element)
             data[state] = value
             state = :title
           when :title
-            raise 'invalid state' unless element.name == 'a'
-
+            guard_title(element)
             data[state] = value
             data[:link] = element['href']
             state = :company
           when :company
-            raise 'invalid state' unless element.name == 'p' && element['class'] == 'p-company'
-
+            guard_company(element)
             data[state] = value
             state = :authors
           when :authors
-            raise 'invalid state' unless element.name == 'p' && element['class'] == 'p-company'
-
+            guard_authors(element)
             data[state] = value
             state = :genre
             results[current_date] << data
@@ -125,5 +127,34 @@ module Manga::Tools
 
       results
     end
+
+    def targets
+      @targets ||= [
+        'td.day-td',
+        'div.product-description-right p.p-genre',
+        'div.product-description-right a',
+        'div.product-description-right p.p-company'
+      ]
+    end
+
+    # Remove HTML spaces (&nbsp;) and white spaces.
+    # @param str [String] a string
+    def rm_spaces(str)
+      str.gsub("\u00A0", '').strip
+    end
+
+    def guard_genre(element)
+      raise 'invalid state' unless element.name == 'p' && element['class'] == 'p-genre'
+    end
+
+    def guard_title(element)
+      raise 'invalid state' unless element.name == 'a'
+    end
+
+    def guard_company(element)
+      raise 'invalid state' unless element.name == 'p' && element['class'] == 'p-company'
+    end
+
+    alias guard_authors guard_company
   end
 end

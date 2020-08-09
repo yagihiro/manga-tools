@@ -15,23 +15,24 @@ AllCops:
   RubyInterpreters:
     - ruby
   TargetRubyVersion: 2.6
+  NewCops: enable
   Exclude:
     - 'bin/*'
 
 Metrics/AbcSize:
-  Max: 46
+  Max: 37
 
 Metrics/BlockLength:
   Max: 36
 
 Metrics/CyclomaticComplexity:
-  Max: 17
+  Max: 10
 
 Metrics/MethodLength:
-  Max: 50
+  Max: 44
 
 Metrics/PerceivedComplexity:
-  Max: 14
+  Max: 7
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
