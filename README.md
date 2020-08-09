@@ -1,5 +1,6 @@
 # Manga::Tools
 
+[![Gem Version](https://badge.fury.io/rb/manga-tools.svg)](https://badge.fury.io/rb/manga-tools)
 ![Ruby](https://github.com/yagihiro/manga-tools/workflows/Ruby/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e2797c91a0bd6f521905/maintainability)](https://codeclimate.com/github/yagihiro/manga-tools/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e2797c91a0bd6f521905/test_coverage)](https://codeclimate.com/github/yagihiro/manga-tools/test_coverage)
