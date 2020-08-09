@@ -11,5 +11,5 @@ gem 'pry'
 gem 'rake', require: false
 gem 'rspec'
 gem 'rubocop', require: false
+gem 'simplecov', '~> 0.17.0', require: false
 gem 'thor'
-gem 'simplecov', require: false
