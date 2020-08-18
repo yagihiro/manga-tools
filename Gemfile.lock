@@ -14,10 +14,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     json (2.3.1)
     method_source (1.0.0)
-    mini_portile2 (2.4.0)
     multipart-post (2.1.1)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
@@ -67,7 +64,6 @@ PLATFORMS
 DEPENDENCIES
   faraday
   manga-tools!
-  nokogiri
   pry
   rake
   rspec

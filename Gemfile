@@ -6,7 +6,6 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'faraday'
-gem 'nokogiri'
 gem 'pry'
 gem 'rake', require: false
 gem 'rspec'
