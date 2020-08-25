@@ -13,8 +13,10 @@ module Manga
       end
 
       desc 'search WORD', 'Search titles for a given WORD'
+      method_option :host, aliases: '-h', desc: 'Specifies the host to connect to for development'
       def search(word)
-        url = "https://manga-tools-server.herokuapp.com/publications?keyword=#{CGI.escape(word)}"
+        host = options[:host] ? "http://#{options[:host]}" : 'https://manga-tools-server.herokuapp.com'
+        url = "#{host}/publications?keyword=#{CGI.escape(word)}"
         res = Manga::Tools::Http.get(url)
         results = JSON.parse(res.body)
 

@@ -23,7 +23,15 @@ module Manga
       # @return [Faraday::Response] a response object
       def self.get(url)
         u = URI.parse(url)
-        connection("#{u.scheme}://#{u.host}").get(u.request_uri)
+        connection(connection_url(u)).get(u.request_uri)
+      end
+
+      def self.connection_url(url)
+        if [80, 443].include?(url.port)
+          "#{url.scheme}://#{url.host}"
+        else
+          "#{url.scheme}://#{url.host}:#{url.port}"
+        end
       end
 
       # @param response [Faraday::Response] a response object
