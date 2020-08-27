@@ -20,7 +20,14 @@ module Manga
       # @param word [String] search string
       # @param options [Hash] command options from Thor
       def search(word, options)
-        session.options = options
+        opts = options.dup
+
+        if opts[:host]
+          # If the `host` option is specified, it is assumed to be the development environment
+          opts[:session_file_name] = 'session-development.txt'
+        end
+
+        session.options = opts
         session.get("/publications?keyword=#{CGI.escape(word)}")
       end
     end

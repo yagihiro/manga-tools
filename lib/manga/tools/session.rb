@@ -69,9 +69,13 @@ module Manga
         @session_dir ||= "#{root_dir}/session"
       end
 
+      def session_file_name
+        @session_file_name ||= options[:session_file_name] ? options[:session_file_name] : 'session.txt'
+      end
+
       # @return [String] the session file path
       def session_file_path
-        @session_file_path ||= "#{session_dir}/session.txt"
+        @session_file_path ||= "#{session_dir}/#{session_file_name}"
       end
 
       def _store(session_id)
