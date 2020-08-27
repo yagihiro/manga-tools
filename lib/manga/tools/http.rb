@@ -15,7 +15,7 @@ module Manga
         headers = { 'User-Agent' => user_agent }
         headers['X-Session-ID'] = session_id if session_id
 
-        @connection ||= Faraday.new(url: url, headers: headers) do |f|
+        @connection = Faraday.new(url: url, headers: headers) do |f|
           # f.response :logger
         end
       end
@@ -28,6 +28,10 @@ module Manga
         connection(connection_url(u), session_id).get(u.request_uri)
       end
 
+      # @param url [URI] A URL instance.
+      # @return [String] Returns the URL to connect to.
+      #
+      # If the port is not a standard port (80 or 443), the port number is included.
       def self.connection_url(url)
         if [80, 443].include?(url.port)
           "#{url.scheme}://#{url.host}"
@@ -36,18 +40,7 @@ module Manga
         end
       end
 
-      # @param response [Faraday::Response] a response object
-      # @return [nil|Integer] number of second to cache
-      #
-      # supported http header
-      # - cache-control: max-age=[sec]
-      def self.seconds_to_cache(response)
-        result = response['cache-control']&.split(/,/)&.map(&:strip)&.find { |item| item =~ /max-age=(.+)/ }
-        return nil unless result
-
-        Regexp.last_match(1).to_i
-      end
-
+      # @return [String] Returns a user agent string
       def self.user_agent
         @user_agent ||= "manga-tools #{Manga::Tools::VERSION}"
       end
