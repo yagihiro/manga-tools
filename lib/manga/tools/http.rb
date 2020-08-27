@@ -9,21 +9,23 @@ module Manga
     # HTTP client class
     module Http
       # @param url [String] an url string, eg: `https://example.com`
+      # @param session_id [String, nil] A Session ID string or nil
       # @return [Faraday::Connection] a connection object
-      def self.connection(url)
-        @connection ||= Faraday.new(
-          url: url,
-          headers: { 'User-Agent' => user_agent }
-        ) do |f|
+      def self.connection(url, session_id)
+        headers = { 'User-Agent' => user_agent }
+        headers['X-Session-ID'] = session_id if session_id
+
+        @connection ||= Faraday.new(url: url, headers: headers) do |f|
           # f.response :logger
         end
       end
 
       # @param url [String] an url string, eg: `https://example.com/path/to/object`
+      # @param session_id [String, nil] A Session ID string or nil
       # @return [Faraday::Response] a response object
-      def self.get(url)
+      def self.get(url, session_id)
         u = URI.parse(url)
-        connection(connection_url(u)).get(u.request_uri)
+        connection(connection_url(u), session_id).get(u.request_uri)
       end
 
       def self.connection_url(url)

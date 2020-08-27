@@ -2,7 +2,8 @@
 
 require 'json'
 require 'thor'
-require_relative 'http'
+require_relative 'client'
+require_relative 'formatter'
 
 module Manga
   module Tools
@@ -15,16 +16,9 @@ module Manga
       desc 'search WORD', 'Search titles for a given WORD'
       method_option :host, aliases: '-h', desc: 'Specifies the host to connect to for development'
       def search(word)
-        host = options[:host] ? "http://#{options[:host]}" : 'https://manga-tools-server.herokuapp.com'
-        url = "#{host}/publications?keyword=#{CGI.escape(word)}"
-        res = Manga::Tools::Http.get(url)
-        results = JSON.parse(res.body)
-
-        puts "Searching '#{word}' ..."
-        results.each do |item|
-          puts "#{item['published_at']}: #{item['title']}"
-        end
-        puts 'Finished.'
+        client = Manga::Tools::Client.new
+        results = client.search(word, options)
+        Manga::Tools::Formatter.display(:search, word, results)
       end
     end
   end
