@@ -17,6 +17,7 @@ module Manga
 
         @connection = Faraday.new(url: url, headers: headers) do |f|
           # f.response :logger
+          f.response :raise_error
         end
       end
 
@@ -26,6 +27,15 @@ module Manga
       def self.get(url, session_id)
         u = URI.parse(url)
         connection(connection_url(u), session_id).get(u.request_uri)
+      end
+
+      def self.post(url, session_id, params)
+        u = URI.parse(url)
+        connection(connection_url(u), session_id).post do |req|
+          req.headers['Content-Type'] = 'application/json'
+          req.url u.request_uri
+          req.body = params.to_json
+        end
       end
 
       # @param url [URI] A URL instance.
