@@ -20,6 +20,14 @@ module Manga
         results = client.search(word, options)
         Manga::Tools::Formatter.display(:search, word, results)
       end
+
+      desc 'follow KEY', 'Follow a title for a given follow KEY'
+      method_option :host, aliases: '-h', desc: 'Specifies the host to connect to for development'
+      def follow(key)
+        client = Manga::Tools::Client.new
+        results = client.follow(key, options)
+        Manga::Tools::Formatter.display(:follow, key, results)
+      end
     end
   end
 end

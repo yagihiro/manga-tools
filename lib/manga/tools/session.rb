@@ -28,6 +28,11 @@ module Manga
         JSON.parse(response.body)
       end
 
+      def post(path, params)
+        response = with_session { |session_id| Manga::Tools::Http.post(build_full_url(path), session_id, params) }
+        JSON.parse(response.body)
+      end
+
       private
 
       def with_session
@@ -70,7 +75,7 @@ module Manga
       end
 
       def session_file_name
-        @session_file_name ||= options[:session_file_name] ? options[:session_file_name] : 'session.txt'
+        @session_file_name ||= options[:session_file_name] || 'session.txt'
       end
 
       # @return [String] the session file path

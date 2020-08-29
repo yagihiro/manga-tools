@@ -20,6 +20,19 @@ module Manga
       # @param word [String] search string
       # @param options [Hash] command options from Thor
       def search(word, options)
+        session.options = adapt_to_dev_env(options)
+        session.get("/publications?keyword=#{CGI.escape(word)}")
+      end
+
+      def follow(key, options)
+        params = { key: key }
+        session.options = adapt_to_dev_env(options)
+        session.post('/follows', params)
+      end
+
+      private
+
+      def adapt_to_dev_env(options)
         opts = options.dup
 
         if opts[:host]
@@ -27,8 +40,7 @@ module Manga
           opts[:session_file_name] = 'session-development.txt'
         end
 
-        session.options = opts
-        session.get("/publications?keyword=#{CGI.escape(word)}")
+        opts
       end
     end
   end
