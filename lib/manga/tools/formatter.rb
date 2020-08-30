@@ -11,6 +11,8 @@ module Manga
             display_search(results)
           when :follow
             display_follow(results)
+          when :follow_list
+            display_follow_list(results)
           end
         end
 
@@ -26,6 +28,14 @@ module Manga
 
         def display_follow(results)
           puts "Followed '#{results[1]['title']}'."
+          puts 'Finished.'
+        end
+
+        def display_follow_list(results)
+          puts 'Listing follow list...'
+          results[0].each do |item|
+            puts (item['title']).to_s
+          end
           puts 'Finished.'
         end
       end

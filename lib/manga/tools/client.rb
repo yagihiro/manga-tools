@@ -24,10 +24,20 @@ module Manga
         session.get("/publications?keyword=#{CGI.escape(word)}")
       end
 
+      # Follow a title for a given follow `key`
+      # @param key [String] follow key
+      # @param options [Hash] command options from Thor
       def follow(key, options)
         params = { key: key }
         session.options = adapt_to_dev_env(options)
         session.post('/follows', params)
+      end
+
+      # Displays the follow list
+      # @param options [Hash] command options from Thor
+      def follow_list(options)
+        session.options = adapt_to_dev_env(options)
+        session.get('/follows')
       end
 
       private

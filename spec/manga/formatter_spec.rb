@@ -14,5 +14,11 @@ RSpec.describe Manga::Tools::Formatter do
       subject { described_class.display(command) }
       it { is_expected.to eq 'ok' }
     end
+    context 'follow-list command' do
+      let(:command) { :follow_list }
+      before { allow(described_class).to receive(:display_follow_list).and_return('ok') }
+      subject { described_class.display(command) }
+      it { is_expected.to eq 'ok' }
+    end
   end
 end
