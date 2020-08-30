@@ -33,58 +33,40 @@ RSpec.describe Manga::Tools::Session do
         end
       end
     end
-    describe 'session_file_name key' do
-      context 'If session_file_name is not included in the options' do
-        it do
-          subject
-          expect(session.send(:session_file_name)).to eq 'session.txt'
-        end
-      end
-      context 'If the option included session_file_name' do
-        let(:session_file_name) { 'deadbeef.txt' }
-        let(:options) { { session_file_name: session_file_name } }
-        it do
-          subject
-          expect(session.send(:session_file_name)).to eq session_file_name
-        end
-      end
-    end
   end
   describe '#get' do
     let(:path) { '/path' }
     let(:session) { described_class.new }
-    let(:response) { double('faraday response') }
-    let(:headers) { double('http headers') }
-    let(:session_id) { 'deadbeef' }
+    let(:store) { spy('session store') }
+    let(:response) { spy('faraday response') }
     let(:body) { { 'message' => 'success' } }
     before do
+      session.instance_variable_set('@store', store)
       allow(Manga::Tools::Http).to receive(:get).and_return(response)
-      allow(response).to receive(:headers).and_return(headers)
-      allow(response).to receive(:body).and_return(JSON.dump(body))
-      allow(headers).to receive(:[]).and_return(session_id)
-      allow(session).to receive(:load).and_return(nil)
-      allow(session).to receive(:store)
+      allow(response).to receive(:body).and_return(body.to_json)
     end
     subject { session.get(path) }
     it { is_expected.to eq body }
+    it { expect(store).to have_receive(:load) }
+    it { expect(response).to have_receive(:headers) }
+    it { expect(store).to have_receive(:store) }
   end
   describe '#post' do
     let(:path) { '/path' }
     let(:session) { described_class.new }
-    let(:response) { double('faraday response') }
-    let(:headers) { double('http headers') }
-    let(:session_id) { 'deadbeef' }
+    let(:store) { spy('session store') }
+    let(:response) { spy('faraday response') }
     let(:body) { { 'message' => 'success' } }
     let(:params) { {} }
     before do
+      session.instance_variable_set('@store', store)
       allow(Manga::Tools::Http).to receive(:post).and_return(response)
-      allow(response).to receive(:headers).and_return(headers)
-      allow(response).to receive(:body).and_return(JSON.dump(body))
-      allow(headers).to receive(:[]).and_return(session_id)
-      allow(session).to receive(:load).and_return(nil)
-      allow(session).to receive(:store)
+      allow(response).to receive(:body).and_return(body.to_json)
     end
     subject { session.post(path, params) }
     it { is_expected.to eq body }
+    it { expect(store).to have_receive(:load) }
+    it { expect(response).to have_receive(:headers) }
+    it { expect(store).to have_receive(:store) }
   end
 end

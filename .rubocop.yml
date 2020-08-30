@@ -19,6 +19,10 @@ AllCops:
   Exclude:
     - 'bin/*'
 
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
 Metrics/AbcSize:
   Max: 37
 
